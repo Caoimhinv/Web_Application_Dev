@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <!-- importing style sheet -->
+    <link href="style_sheet.css" rel="stylesheet">
+
+    <script>
+        // function to log in
+        function login(){
+            
+            // creates variable for values entered by user
+            var username = document.getElementById("email").value;
+            var password = document.getElementById("pwd").value;
+
+            // declares variables for the correct username and password
+            var unameCorrect = "charlie@parker.com"
+            var pwdCorrect = "password!"
+
+            // variable for regular expression to test validity of email address
+            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                
+            // checks if email address is valid using regular expression
+            if (!filter.test(username))
+                {
+                 alert('Invalid email address');
+                }
+
+            // checks if email address is correct
+            else if (username !== unameCorrect)
+                {
+                alert("Incorrect email address")
+                }
+
+            // checks if password is correct
+            else if (password !== pwdCorrect)
+                {
+                alert("Incorrect password")
+                }
+
+            // returns if either field is left blank
+            else if(username =='')
+                {
+                alert("Please enter a username.");
+                }
+            else if(password=='')
+                {
+                alert("Please enter a password");
+                }
+
+            // password has to be more than 6 characters
+            else if(password.length < 6)
+                {
+                alert("Password min length is 6");
+                }
+
+            // if all correct we get an alert and redirected to the homepage
+            else
+                {
+                alert('You have been deemed worthy! Click OK to enter "Jazz Club"!');
+                window.location.href = "homepage.html";
+                 }
+        }
+
+        // function to reset input fields
+        function clearFunc()
+            {
+            document.getElementById("email").value="";
+            document.getElementById("pwd").value="";
+            }
+            
+    </script>
+</head>
+
+<body class="body1">
+    <div>
+        <br>
+        <!-- heading and image -->
+        <h1 class="heading1">JaZz cLuB!</h1><br>
+        <img src="Images/Jazz-New-Thing-Featured-Art.jpg" alt="jazz_band_image" class="img1">
+        <br>
+        <br>
+    </div>
+
+    <div>
+        <!-- login form -->
+    <form class="form1">
+        <input type="email" class="form-control" placeholder="email" name="email" id="email">
+        <input type="password" class="form-control" placeholder="password" name="password" id="pwd">
+        <input type="reset" class="buttons" value="login" onclick="login()">
+        <input type="submit" class="buttons" value="reset" onclick="clearFunc()"> 
+    </form>
+    </div>
+
+</body>
+</html>

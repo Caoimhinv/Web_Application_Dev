@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales</title>
+    <meta charset="UTF-8">
+    <!-- link to D3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!-- link to style sheeet -->
+    <link href="style_sheet.css" rel="stylesheet"> 
+</head>
+
+<body class="body4" id="gaudy">
+    <!-- navigation bar -->
+    <div class="topnav">
+        <a href="homepage.html">HoMe</a>
+        <a href="poll.html">¿Poll?</a>
+        <a href="awards.html">Awards</a>      
+        <a class="active" href="sales.html">$Sales</a>
+        <a href="listen.html">¡Listen!</a>
+        <a href="signup.html">Sign Up</a>
+        <img src="Images/logo.webp" align="right" alt="jazz logo" width="100" height="100">
+    </div>
+
+    <!-- heading and image -->
+    <h1 class="heading2" id="header">Best selling jazz albums?</h1>
+    <img class="pic" src="Images/Miles-Davis-1969.webp" alt="Miles_Davis">   
+
+    <!-- button calls drawTable function -->
+    <div class = "box1" style="max-width:180px">Press Go to find out!
+    <button onclick="drawTable()" class="buttons2">Go!</button></div>
+    <br>
+    <br>
+
+    <!-- creates a div for table -->
+    <div id="myDiv" class="table"></div>
+
+    <!-- creates div for source link -->
+    <div id="myDiv2" class="box1" style="max-width:100px"></div>
+    <br>
+
+    <!-- option to change background colours. Calls function getRidOfThoseMadColours()-->
+    <div id="change">Background colours?
+        <button id="btn2" onclick="getRidOfThoseMadColours()" class="buttons2" style="height:65px;width:65px;background-color: maroon;">If you must!</button></div>
+        <div><button id="btn" class="buttons2" style="height:65px;width:65px;background-color:#00FFFF;color:white" onClick="window.location.reload();">Refresh</button></div>
+    </body>
+
+    <script>
+        // styling for text at id-"change"
+        var txt = document.getElementById("change");
+        txt.style.color = "black";
+        txt.style.fontFamily = "Tahoma";
+        txt.style.fontSize = "18px";
+
+        // function to change background, button colours, font colour, and text
+        function getRidOfThoseMadColours(){
+            document.getElementById("gaudy").style.background = "#66FF66";
+            document.getElementById("btn").style.background = "black";
+            document.getElementById("btn").innerHTML = "Refresh";
+            document.getElementById("btn").style.color = "white";
+            document.getElementById("btn2").style.background = "#66FF66";
+            document.getElementById("header").innerHTML = "the colour can always be worse!";            
+        }   
+
+        // function to draw table
+        function drawTable(){
+            d3.select("#myDiv").append("svg")
+                .attr("height", 500)
+                .attr("width", 1000);
+
+            // clears any items in the Div before creating a new one
+            d3.select("#myDiv").selectAll("*").remove();
+
+            // uses d3.csv.parseRows() method to access data from csv file
+            // REFERENCE - adapted from https://stackoverflow.com/questions/27948264/create-table-using-d3-js
+            d3.text("sales_figures.csv", function(data) {
+            var parsedCSV = d3.csv.parseRows(data);
+            var container = d3.select("#myDiv")
+                .append("table")
+                .selectAll("tr")
+                .data(parsedCSV).enter()
+                .append("tr")
+                .selectAll("td")
+                .data(function(d) { return d; }).enter()
+                .append("td")
+                .text(function(d) { return d; });
+            });
+            // end of REFERENCE
+
+            // displays link to source website in myDiv2
+            var txt1 = '<a href="https://rateyourmusic.com/list/Rifugium/best-selling-jazz-albums-of-all-time-riaa-or-theres-no-money-in-jazz/" target="_blank">source</a>'
+            document.getElementById("myDiv2").innerHTML = txt1;
+        };
+    </script>
+    
+</html>
+

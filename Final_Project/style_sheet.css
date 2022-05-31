@@ -1,0 +1,252 @@
+/* CSS style sheet for all pages */
+
+/* import jazzy font for headings on each page */
+@import url('http://fonts.cdnfonts.com/css/melody-jazzy');
+
+/* styling for svg containers (graph background) on poll.html and awards.html */
+.back {
+    background-color: black;
+    border: 2px solid white;
+    box-shadow: 15px -15px 8px rgba(125, 5, 5, 0.15);
+}
+
+/* backgrounds styles - slight variations for each page */
+.body1 {
+    background-color:ivory;
+}
+.body2 {
+    height: 100%;
+    background: linear-gradient(90deg, #FFC0CB 50%, #00FFFF 50%);
+}
+.body3 {
+    height: 100%;
+    background: linear-gradient(70deg, #FFC0CB 70%, #00FFFF 30%);
+}
+.body4 {
+    height: 100%;
+    background: linear-gradient(90deg, #FFC0CB 65%, #00FFFF 35%);
+}
+.body5 {
+    height: 100%;
+    background: linear-gradient(90deg, #FFC0CB 70%, #00FFFF 30%);
+}
+.body6 {
+    height: 100%;
+    background: linear-gradient(90deg, #FFC0CB 60%, #00FFFF 40%);
+    }
+
+/* various stylings for text boxes. Further internal HTML stylings contained in files */
+.box1 {
+    border-radius: 25px 25px 25px 25px; 
+    border: 2px groove rgb(207, 77, 77); 
+    background-color:white; 
+    color:rgb(6, 37, 47); 
+    max-width:480px;
+    padding:5px;
+    text-align: center;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2); 
+    margin: 5px;
+    font-family: Tahoma;
+}
+.box2 {
+    border-radius: 25px 25px 25px 25px; 
+    border: 2px groove rgb(207, 77, 77); 
+    background-color: rgb(254, 226, 226); 
+    color:rgb(6, 37, 47); 
+    max-width:380px;
+    padding: 13px, 6px;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2); 
+    text-align: left;
+}
+.box3 {
+    border-radius: 25px 25px 25px 25px; 
+    border: 2px groove rgb(207, 77, 77); 
+    background-color: rgb(254, 226, 226); 
+    color:rgb(6, 37, 47); 
+    max-width:900px;
+    padding:5px;
+    text-align: center;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2);
+    font-family: Tahoma;
+    margin: 5px;
+}
+
+/* various stylings for buttons. Further internal HTML/DOM stylings contained in files */
+.buttons {
+    background-color: #f6e496; 
+    color: maroon;
+    border-top: 2px solid #5f6c4d; 
+    border-right: 2px solid #000000; 
+    border-bottom: 2px solid #000000; 
+    border-left: 2px solid #5f6c4d;
+    width: 80px; height: 30px;
+    font-weight: bold;
+    margin: auto;
+    box-shadow: 2px 2px 1px;
+    font-family: Tahoma;
+    padding: 6px;
+    text-align: center;
+    border-radius: 15%;
+}
+.buttons2 {
+    background-color: rgb(103, 101, 101); 
+    color: white;
+    border: 1px solid white;
+    width: 55px; height: 55px;
+    font-weight: bold;
+    margin: auto;      
+    border-radius: 50%;
+    font-family: Tahoma;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2);      
+}
+
+/* adds a hover effect for both button styles */
+.buttons:hover {
+    opacity: 0.7;
+}
+.buttons2:hover {
+    opacity: 0.7;
+}
+
+/* aligns the form elements for login page */
+.form1 {
+    text-align: center;
+    font-family: Tahoma;
+}
+/* alternate form formatting without alighment */
+.form2 {
+    font-family: Tahoma;
+}
+
+/* styles main headings */
+.heading1 {
+    color: white;
+    text-shadow: -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
+    font-family:Melody Jazzy;
+    text-align:center;
+    color:maroon;
+    font-size:80px;
+}
+.heading2 {
+    color: white;
+    text-shadow: -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
+    font-family:Melody Jazzy;
+    text-align:left;
+    color:maroon;
+    font-size:80px;
+}
+
+/* sets image styling */
+.img1 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 10px 10px 5px;
+    width:50%;
+    border:5px solid black;
+}
+
+/* stylings for input fields */
+input, select {
+    width : 180px;
+    padding: 6px;
+    margin: 0;
+    box-sizing: border-box;
+    border: 2px solid maroon; 
+    border-radius: 10px;
+    font-family: Tahoma; 
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2);    
+}
+input, select, textarea [type=text]:focus {
+    background-color: rgb(247, 247, 250);
+    margin:5px;
+    }
+
+/* p styling for login page text */
+p {
+    font-family:Tahoma;
+    text-align:center;
+    font-size:18px;
+    color:rgb(60, 4, 4);
+    position: relative;
+    left: 31%;
+}
+
+/* further formattings for images */
+.pic {
+    object-position: right;
+    width:800px;
+    height:800px;
+    float: right;
+    opacity: 0.3;
+}
+.pic2 {
+    object-fit: none;
+    object-position: right;
+    width:65%;
+    float: right;
+    border:5px solid white;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2);    
+}
+
+/* changes hover colour of rectangles on graphs on poll.html and awards.html */
+rect:hover { 
+    fill:#00FFFF;
+}
+
+/* styling for table on sales.html */
+table {
+    border-collapse: collapse;
+    border-spacing: 2px;
+    border: 7px rgb(85, 6, 6) solid;
+    font: 14px Chalkduster, fantasy;
+    background-color: #f2eaea;
+    box-shadow: 12px 12px 2px 1px rgba(125, 5, 5, 0.15);
+}
+td {
+    border: 2px rgb(85, 6, 6) solid;
+    padding: 5px;
+}
+
+/* styling text area box on signup.html page */
+textarea {
+    width : 400px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 2px solid maroon; 
+    border-radius: 4px;
+    font-family: Tahoma;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.2); 
+    }
+
+/* styling navigation bar for each page */
+.topnav {
+    background-color: black;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 18px 30px;
+    text-decoration: none;
+    font-family: Melody Jazzy;
+    font-size: 30px;
+    height: 64px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Change the style of the active/current link */
+.topnav a.active {
+    background-color: white;
+    color: rgb(224, 180, 33);
+    height: 64px;
+}

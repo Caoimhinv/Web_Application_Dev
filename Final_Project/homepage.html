@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homepage</title>
+    <meta charset="UTF-8">
+    <!-- import style sheet -->
+    <link href="style_sheet.css" rel="stylesheet">
+</head>
+
+<body class="body2" id="gaudy">
+    <!-- navigation bar -->
+    <div class="topnav">
+        <a class="active" href="homepage.html">HoMe</a>
+        <a href="poll.html">¿Poll?</a>
+        <a href="awards.html">Awards</a>      
+        <a href="sales.html">$Sales</a>
+        <a href="listen.html">¡Listen!</a>
+        <a href="signup.html">Sign Up</a>
+        <img src="Images/logo.webp" align="right" alt="jazz logo" width="100" height="100">
+        </div>
+
+    <!-- heading, image, text box -->
+    <h1 class="heading1" id="header">Welcome To Jazz Club!</h1><br>
+    <img src="Images/06Jazz-Protest-1-superJumbo.jpeg" alt="jazz_protest_image" style="border:5px solid rgb(248, 232, 232);" class="img1">
+    <p class="box1">A little corner of jazz on the world not-so-wide web!</p>
+    
+    <div id="change">Not a fan of the colour scheme?
+
+    <!-- button to change colour scheme. Calls function getRidOfThoseMadColours()-->
+    <button id="btn2" onclick="getRidOfThoseMadColours()" class="buttons2" style="height:70px;width:70px">Click Here Quick!</button></div>
+    <!-- button to refresh page, i.e. back to 'normal' -->
+    <div><button id="btn" class="buttons2" style="height:65px;width:65px;background-color:#00FFFF;color:white" onClick="window.location.reload();">Refresh</button></div>
+</body>
+
+<script>
+    // formats the text at id="change"
+    var txt = document.getElementById("change");
+    txt.style.color = "black";
+    txt.style.fontFamily = "Comic Sans MS";
+    txt.style.fontSize = "18px";
+
+    // function to change the colour scheme
+    function getRidOfThoseMadColours(){
+        document.getElementById("gaudy").style.background = "beige";
+        document.getElementById("btn").style.background = "#00468C";
+        document.getElementById("btn").style.color = "white";
+        document.getElementById("btn2").style.background = "beige";
+        document.getElementById("header").style.color = "#00468C";
+    }
+
+</script>
+</html>

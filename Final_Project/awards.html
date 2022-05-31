@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Awards</title>
+    <meta charset="UTF-8">
+    <!-- link to D3.js -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- link to style sheeet -->
+    <link href="style_sheet.css" rel="stylesheet"> 
+</head>
+
+<body class="body2" id="gaudy">
+    <!-- navigation bar -->
+    <div class="topnav">
+        <a href="homepage.html">HoMe</a>
+        <a href="poll.html">¿Poll?</a>
+        <a class="active" href="awards.html">Awards</a>      
+        <a href="sales.html">$Sales</a>
+        <a href="listen.html">¡Listen!</a>
+        <a href="signup.html">Sign Up</a>
+        <img src="Images/logo.webp" align="right" alt="jazz logo" width="100" height="100">
+    </div>
+
+      <!-- heading and text in boxes -->
+      <h1 class="heading2">Jazz at the Grammys!</h1>
+        <div class=box1 style="max-width:700px">Since 1959 jazz musicians have received awards in multiple catgories including 'Best Jazz Instrumental Album', 'Best Jazz Vocal Album', 'Best Improvised Jazz Solo' among others.</div><br>
+        <div class="box3" style="max-width:750px">Choose from the options below to customise and display a cool graph revealing who has won the most!<br>
+      
+        <!-- user choices. Similar to previous page (poll.html)-->
+        <br>
+        Choose a size:
+      <select id="chartHeight">
+          <option value="400">small</option>
+          <option value="600">medium</option>
+          <option value="800">large</option>
+      </select>
+      <br><br>
+      Choose text colour: <input type="color" id="colorPicker">
+      <br><br>
+      Customise animation speed: 
+      <select id="animSpeed">
+          <option value="1000">fast</option>
+          <option value="2500">medium</option>
+          <option value="4000">slow</option>
+      </select>
+      <br>
+    
+      <!-- button to call drawChart function -->
+      <button onclick="drawChart()" class="buttons2">Go!</button></div>
+      <br>
+
+      <!-- div for SVG container/graph -->
+      <div id="myDiv" class="back"></div>
+        <br>
+
+        <!-- button with link to signup page -->
+        <div class=box1 style="max-width:800px">For more interesting jazz facts and the full details of jazz grammy winners - sign up and become a member! </div>
+        <button onclick="window.location.href='/signup.html'" class="buttons2">Sign Up!</button> 
+        <br><br>
+
+        <!--  buttons to change stylistic elements on page. One calls function while the other refreshes the page back to its original state -->
+        <div id="change">Still not digging those background colours?
+        <button id="btn2" onclick="getRidOfThoseMadColours()" class="buttons2" style="height:60px;width:60px;background-color: #FFC0CB;">Here!</button></div>
+        <div><button id="btn" class="buttons2" style="height:65px;width:65px;background-color:#00FFFF;color:white" onClick="window.location.reload();">Refresh</button></div>         
+</body>
+
+<script>
+    // formatting text where id="change"
+    var txt = document.getElementById("change");
+    txt.style.color = "black";
+    txt.style.fontFamily = "Tahoma";
+    txt.style.fontSize = "18px";
+    txt.style.textAlign = "right"
+
+    // function to change several style elements
+    function getRidOfThoseMadColours(){
+        document.getElementById("gaudy").style.background = "beige";
+        document.getElementById("btn").style.background = "maroon";
+        document.getElementById("btn").style.color = "white";
+        document.getElementById("btn2").style.background = "beige";
+    }   
+
+    // function to draw graph
+    function drawChart(){
+
+        // user inputs declared as variables
+        var height = document.getElementById("chartHeight").value;
+        var chartColour = document.getElementById("colorPicker").value;
+        var animSpeed = document.getElementById("animSpeed").value;
+
+        // some useful measurements saved as variables
+        var margin = 40;
+        var width = 900;
+        var gap = 6;
+
+        // array of awards wins. Data from https://en.wikipedia.org/wiki/Grammy_Award_for_Best_Jazz_Instrumental_Album and pages linked to it
+        var myArray = [23, 15, 12, 8, 7, 7, 7, 7, 7, 7, 6, 6, 6];
+
+        // array of corresponding award winners
+        var myOtherArray = ["Chick Corea", "Pat Metheny", "Michael Brecker",
+                      "Duke Ellington", "Count Basie", "Bill Evans", "Gary Burton",
+                      "Herbie Hancock", "Wayne Shorter", "Miles Davis", "Oscar Peterson",
+                      "Wynton Marsalis", "Christian McBride"];
+
+        // length of array saved as variable
+        var dataCount = myArray.length;
+
+        // creates a string version of array (for labels)
+        var myArray2 = myArray.map(String)
+
+        // creates y scale
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(myArray) + 1])
+            .range([height, 0]);
+
+        // creates x scale
+        var xScale = d3.scaleBand()
+            .domain(myOtherArray)
+            .range([0, width]);
+
+        // creates y and x axes
+        var yAxis = d3.axisLeft()
+            .scale(yScale);
+        var xAxis = d3.axisBottom()
+            .scale(xScale);
+    
+        // removes any previously drawn graphs
+        d3.select("#myDiv").selectAll("*").remove();
+            
+        // creates the svg container
+        let svgContainer = d3.select("#myDiv").append("svg")
+            .attr("height", height*1.2)
+            .attr("width", width*1.1);
+        
+        // creates a rectangle based on data from array
+        let myRectangle = svgContainer.selectAll("rect")
+            .data(myArray);
+         
+        // formats rectangles and transitions
+        // functions and methods similar to poll.html
+        myRectangle.enter()
+            .append("rect")
+                // start of transition
+                .attr("fill", "black")
+                .attr("y", function(d, i) {
+              return margin + (i*(width/dataCount));
+          })
+                .attr("x", height)          
+                .attr("width", (width/dataCount - gap))
+
+                // transition setting
+                .transition()
+                .duration(animSpeed)
+
+                // finish of transition
+                .attr("x", function(d, i) {
+                    return margin + (i*(width/dataCount));
+                })            
+                .attr("y", function(d){
+                      return (yScale(d));
+                })           
+                .attr("height", function(d){
+                      return height - yScale(d);
+                  })
+                .attr("width", (width/dataCount - gap))
+                .attr("fill", "white")
+                .attr('stroke', chartColour)
+                .attr('stroke-width', '2');
+                
+        // creates labels for array (numbers)
+        let myLabel = svgContainer.selectAll("text")
+            .data(myArray);
+              
+        // adds numbers to graph with some transitions
+        myLabel.enter()
+            .append("text")
+                
+                // start of transition
+                .attr("x", function(d, i){
+                    return (width/dataCount-7) + (i*(width/dataCount));
+                  })
+                .attr("y", height - 10)
+              
+                // transition Settings
+                .transition()
+                .duration(animSpeed)
+                .delay(animSpeed)
+                .ease(d3.easeElasticOut)
+              
+                // start of second transition
+                .attr("x", function(d, i){
+                    return (width/dataCount-5) + (i*(width/dataCount));
+                })
+                .attr("y", height - 10)
+                .attr("font-family", "Tahoma")
+                .attr("font-size", "15px")
+                .attr("fill", "black")
+                .attr("text-anchor", "center")
+                .text(function(d, i){return myArray2[i];})
+            
+                // transition settings
+                .transition()
+                .duration(animSpeed)
+                .delay(function(d, i){
+                    return i * 400;
+                })
+                .ease(d3.easeBounceOut)
+            
+                // finish of transition
+                .attr("x", function(d, i){
+                    return (width/dataCount-7) + (i*(width/dataCount));
+                })
+                .attr("y", function(d){
+                return yScale(d) + 25;
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "20px")
+                .attr("fill", chartColour)
+                .attr("text-anchor", "center")
+                .text(function(d, i){return myArray2[i];})
+                .transition();
+        
+        // adds x labels
+        svgContainer.append("g")
+            .attr("transform", "translate(40," + height +")")
+            .call(xAxis)
+            .selectAll("text")
+              .attr("transform", "rotate(60)")
+              .attr("text-anchor", "start")
+              .attr("x", "9")
+              .attr("y", "3")
+              .attr("fill", "white");
+        };
+    </script>
+    
+</html>

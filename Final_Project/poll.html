@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Poll</title>
+    <!-- link to D3.js -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- link to style sheeet -->
+    <link href="style_sheet.css" rel="stylesheet">
+</head>
+
+<body class="body3" id="gaudy">
+    <!-- navigation bar -->
+    <div class="topnav">
+        <a href="homepage.html">HoMe</a>
+        <a class="active" href="poll.html">¿Poll?</a>
+        <a href="awards.html">Awards</a>      
+        <a href="sales.html">$Sales</a>
+        <a href="listen.html">¡Listen!</a>
+        <a href="signup.html">Sign Up</a>
+        <img src="Images/logo.webp" align="right" alt="jazz logo" width="100" height="100">
+    </div>
+    <br>
+
+    <!-- heading -->
+    <h1 class="heading2" id="header">Your favourite artists!</h1>
+
+    <!-- user choices. Values extracted by DOM queries for use in JavaScript function -->
+    <div class="box1">Choose from the following options to see the poll results:<br><br>
+    Choose a size:
+    <select id="chartHeight">
+        <option value="400">small</option>
+        <option value="600">medium</option>
+        <option value="800">large</option>
+    </select>
+    <br>
+    <br>
+    Choose a colour: <input type="color" id="colorPicker">
+    <br>
+    <br>
+    Customise animation speed: 
+    <select id="animSpeed">
+        <option value="1000">fast</option>
+        <option value="3000">medium</option>
+        <option value="5000">slow</option>
+    </select>
+
+    <!-- button to draw chart. Calls drawChart() function -->
+    <button onclick="drawChart()" class="buttons2">Go!</button>
+    </div>
+    <br>
+    <br>
+
+    <!-- div for SVG container/graph -->
+    <div id="myDiv2" class="back"></div>
+    <br>
+
+    <div class="box1" style="max-width:700px">As voted by our wonderful club members! Sign up to become a member and cast your vote!</div>
+    <!-- button links to sign-up page -->
+    <button onclick="window.location.href='/signup.html'" class="buttons2">Sign Up!</button>
+    <br><br>
+    <!-- buttons to change style elements and refresh  -->
+    <div id="change">Change those background colours?
+        <button id="btn2" onclick="getRidOfThoseMadColours()" class="buttons2" style="height:65px;width:65px;background-color:#FFC0CB">Click Here!</button></div>
+        <div><button id="btn" class="buttons2" style="height:65px;width:65px;background-color:#00FFFF;color:white" onClick="window.location.reload();">Refresh</button></div>
+</body>
+
+<script>
+    // formatting of Div elements at id="change"
+    var txt = document.getElementById("change");
+    txt.style.color = "black";
+    txt.style.fontFamily = "Tahoma";
+    txt.style.fontSize = "18px";
+    txt.style.textAlign = "right"
+
+    // function to change various style elements
+    function getRidOfThoseMadColours(){
+        document.getElementById("gaudy").style.background = "beige";
+        document.getElementById("btn").style.background = "#00468C";
+        document.getElementById("btn").style.color = "white";
+        document.getElementById("btn2").style.background = "beige";
+        document.getElementById("header").style.color = "#00468C";
+    }
+
+    // function to create chart
+    function drawChart(){
+
+    // imports poll data from csv file (random request (date) added to url so it uses the actual file as opposed to a cached version
+    // Means the file can be updated and new version used.)
+    d3.csv("poll_results.csv?t=${Date.now()}").then(function(data){
+        console.log(data);
+    
+    // user inputted height, colour, and speed declared as variables
+    var height = document.getElementById("chartHeight").value;
+    var chartColour = document.getElementById("colorPicker").value;
+    var animSpeed = document.getElementById("animSpeed").value;
+  
+    // converts the 'votes' data in the file to numbers
+    data.forEach(function(d){
+        d.votes = Number(d.votes);
+    })
+
+    // creates a scale
+    // 'domain' is from 0 to max value in csv file
+    // 'range' is user inputted height to 0
+    var yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d){
+            return d.votes;
+            })])
+        .range([height, 0]);
+    
+    // creates y axis
+    var yAxis = d3.axisLeft()
+      .scale(yScale);
+    
+    // clears any graphs before creating a new one
+    d3.select("#myDiv2").selectAll("*").remove();
+
+     // creates svg container
+    let svgContainer = d3.select("#myDiv2").append("svg")
+        .attr("height", height*1.2)
+        .attr("width", 800);
+    
+    // creates a rectangle variable
+    let myRectangle = svgContainer.selectAll("rect")
+        .data(data);
+
+    // loops through data in file creating multiple rectangles according to values in relevent columns
+    // other attributes either hardcoded, or from values added by user
+    myRectangle.enter()
+        .append("rect")
+            // start of transition
+            .attr("fill", "#aa8c04")
+            // anonomous function to dictate start positioning of bars.
+            // 50px in from left plus (index * (index * 45))
+            // This will give an effect of the bars travelling from the right of the screen
+            .attr("x", function(d, i) {
+                return (50 + (i*(i*45)));
+            })           
+            .attr("y", height)
+            .attr("width", 40)
+
+            // transition
+            .transition()
+            // duration of animation inputted by user
+            .duration(animSpeed)
+
+            // finish of transition
+            // final 'x' position of bars
+            .attr("x", function(d, i){
+                return 50 + (i*45);
+            })
+            // uses yscaled version of votes as opposed to original values
+            .attr("y", function(d){
+                return (yScale(d.votes)+50);
+          })
+            .attr("height", function(d){
+                return height - yScale(d.votes);
+            })
+            .attr("width", 40)
+            // colour as inputted by user. Black by default
+            .attr("fill", chartColour)
+            .attr('stroke', "white")
+            .attr('stroke-width', '1');
+
+    // creating text label 
+    let myLabel = svgContainer.selectAll("text")
+        .data(data);
+    
+    // formatting the text labels and transitions
+    myLabel.enter()
+        .append("text")
+            // start of first transition
+            // uses similar anonomous functions to above
+            .attr("x", function(d, i){
+                return 70 + (i*45);
+            })
+            .attr("y", height)
+
+            // transition settings
+            .transition()
+            .duration(animSpeed)
+            .delay(animSpeed)
+            // elastic effect for text before stopping
+            .ease(d3.easeElasticOut)
+
+            // finish of first transition and start of second
+            .attr("x", function(d, i){
+                return 70 + (i*45);
+            })
+            .attr("y", function(d){
+                return (yScale(d.votes)+25);
+          })            
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "20px")
+            .attr("fill", "white")
+            .attr("text-anchor", "middle")
+            .text(function (d){
+                return d.votes;
+            })
+
+            // transition settings
+            .transition()
+            .duration(animSpeed)
+            .delay(function(d, i){
+                return i * 400;
+            })
+            // bounce effect for artist names
+            .ease(d3.easeBounceOut)
+
+            // finish of transition
+            .attr("x", function(d, i){
+                return 70 + (i*45);
+            })
+            .attr("y", function(d){
+                return (yScale(d.votes)+45);
+          })       
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "9px")
+            .attr("fill", "white")
+            .attr("text-anchor", "middle")
+            .text(function (d){
+                return d.artist;
+            });
+
+    // adds scale to y axis
+    svgContainer.append("g")
+        .attr("transform", "translate(37, 49)")
+        .call(yAxis)
+        .selectAll("text")
+          .attr("fill", "white");
+        });    
+    };
+</script>
+
+</html>
